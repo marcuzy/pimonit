@@ -35,12 +35,12 @@ jobs:
         name: id_rsa # optional
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
-    - name: Deply
+    - name: Deploy
       env:
         SERVER_NAME: ${{ secrets.SERVER_NAME }}
       run: |
-        rsync -r . "$SERVER_NAME":~/pimonit/.deploy
-        ssh pi "
+        rsync -r . $SERVER_NAME:~/pimonit/.deploy
+        ssh $SERVER_NAME "
           pkill pimonit
           cd ~/pimonit
           cp -r .deploy/* .
