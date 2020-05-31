@@ -40,7 +40,6 @@ jobs:
       env:
         SERVER_NAME: ${{ secrets.SERVER_NAME }}
       run: |
-        rsync -r . $SERVER_NAME:~/pimonit/.deploy
         ssh $SERVER_NAME "
           pkill pimonit
           cd ~/pimonit
