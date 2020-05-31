@@ -27,8 +27,15 @@ jobs:
 
     - name: Build
       run: env GOOS=linux GOARCH=arm go build
-      
-    - name: Deploy
+
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_KEY }}
+        name: id_rsa # optional
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
+    - name: Deply
       env:
         SERVER_NAME: ${{ secrets.SERVER_NAME }}
       run: |
