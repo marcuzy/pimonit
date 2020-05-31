@@ -1,29 +1,29 @@
 package infrastructure
 
 import (
-	"github.com/marcuzy/pimonit/core"
+	"github.com/marcuzy/pimonit/core/interfaces"
 	"time"
 )
 
 //
 //
 type inmemoryTimeSerias struct {
-	data []*core.RangeItem
+	data []*interfaces.RangeItem
 }
 
-func NewInmemoryTimeSerias() core.TimeSeries {
+func NewInmemoryTimeSerias() interfaces.TimeSeries {
 	return &inmemoryTimeSerias{}
 }
 
 func (t *inmemoryTimeSerias) Add(value float64) {
-	t.data = append(t.data, &core.RangeItem{
+	t.data = append(t.data, &interfaces.RangeItem{
 		Date:  time.Now(),
 		Value: value,
 	})
 }
 
-func (t *inmemoryTimeSerias) GetRange(from, to time.Time) []*core.RangeItem {
-	var res []*core.RangeItem
+func (t *inmemoryTimeSerias) GetRange(from, to time.Time) []*interfaces.RangeItem {
+	var res []*interfaces.RangeItem
 	for _, item := range t.data {
 		if item.Date.After(from) && item.Date.Before(to) {
 			res = append(res, item)

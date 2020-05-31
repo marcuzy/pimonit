@@ -1,4 +1,4 @@
-package core
+package interfaces
 
 const (
 	TemperatureUnitsCelsius TemperatureUnits = iota

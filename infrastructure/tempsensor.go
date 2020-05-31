@@ -2,7 +2,7 @@ package infrastructure
 
 import (
 	"errors"
-	"github.com/marcuzy/pimonit/core"
+	"github.com/marcuzy/pimonit/core/interfaces"
 	"os/exec"
 	"regexp"
 	"strconv"
@@ -13,11 +13,11 @@ type (
 	}
 )
 
-func NewPiTempSensor() core.TempSensor {
+func NewPiTempSensor() interfaces.TempSensor {
 	return &piTempSensor{}
 }
 
-func (_ piTempSensor) CurrentTemperature(units core.TemperatureUnits) (float64, error) {
+func (_ piTempSensor) CurrentTemperature(units interfaces.TemperatureUnits) (float64, error) {
 	out, err := exec.Command("/opt/vc/bin/vcgencmd", "measure_temp").Output()
 	if err != nil {
 		return 0, err
@@ -30,7 +30,7 @@ func (_ piTempSensor) CurrentTemperature(units core.TemperatureUnits) (float64, 
 		return 0, err
 	}
 	switch units {
-	case core.TemperatureUnitsCelsius:
+	case interfaces.TemperatureUnitsCelsius:
 		return cels, nil
 	default:
 		return 0, errors.New("unsupported units")

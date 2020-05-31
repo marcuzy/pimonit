@@ -2,7 +2,7 @@ package infrastructure
 
 import (
 	"bytes"
-	"github.com/marcuzy/pimonit/core"
+	"github.com/marcuzy/pimonit/core/interfaces"
 	"github.com/wcharczuk/go-chart"
 	"time"
 )
@@ -12,7 +12,7 @@ type (
 	}
 )
 
-func NewChartGen() core.ChartsGenerator {
+func NewChartGen() interfaces.ChartsGenerator {
 	return &chartGen{}
 }
 

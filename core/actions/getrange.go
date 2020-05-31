@@ -1,11 +1,15 @@
 package actions
 
 import (
-	"github.com/marcuzy/pimonit/core"
+	"github.com/marcuzy/pimonit/core/interfaces"
 	"time"
 )
 
-func GetRange(ts core.TimeSeries, from, to time.Time) ([]*core.RangeItem, error) {
-	items := ts.GetRange(from, to)
-	return items, nil
+type GetRange func(from, to time.Time) ([]*interfaces.RangeItem, error)
+
+func NewGetRange(ts interfaces.TimeSeries) GetRange {
+	return func(from, to time.Time) ([]*interfaces.RangeItem, error) {
+		items := ts.GetRange(from, to)
+		return items, nil
+	}
 }

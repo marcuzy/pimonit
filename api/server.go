@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/marcuzy/pimonit/core"
-	"github.com/marcuzy/pimonit/core/actions"
 	"log"
 	"net/http"
 	"time"
@@ -12,11 +11,11 @@ import (
 
 //
 //
-func StartSever(port int, ts core.TimeSeries, ch core.ChartsGenerator) error {
+func StartSever(port int, c *core.Core) error {
 	http.HandleFunc("/chart/download", func(writer http.ResponseWriter, request *http.Request) {
 		to := time.Now()
 		from := to.Add(-time.Minute * 15)
-		buf, err := actions.GenerateChartPNG(ts, ch, from, to)
+		buf, err := c.Actions.GenerateChartPNG(from, to)
 		if err != nil {
 			log.Print(err)
 			writer.WriteHeader(http.StatusInternalServerError)
@@ -29,7 +28,7 @@ func StartSever(port int, ts core.TimeSeries, ch core.ChartsGenerator) error {
 	http.HandleFunc("/chart", func(writer http.ResponseWriter, request *http.Request) {
 		to := time.Now()
 		from := to.Add(-time.Minute * 15)
-		items, err := actions.GetRange(ts, from, to)
+		items, err := c.Actions.GetRange(from, to)
 		if err != nil {
 			log.Print(err)
 			writer.WriteHeader(http.StatusInternalServerError)
