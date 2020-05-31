@@ -29,8 +29,10 @@ jobs:
       run: env GOOS=linux GOARCH=arm go build
       
     - name: Deploy
+      env:
+        SERVER_NAME: ${{ secrets.SERVER_NAME }}
       run: |
-        rsync -r . $REMOTE_SERVER:~/pimonit/.deploy
+        rsync -r . "SERVER_NAME":~/pimonit/.deploy
         ssh pi "
           pkill pimonit
           cd ~/pimonit
